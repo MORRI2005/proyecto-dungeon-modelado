@@ -9,16 +9,16 @@ public class CoinCounter : MonoBehaviour
     [SerializeField] private TMP_Text coinText;
 
     private Animator _coinAnimator;
-
+    void Awake()
+    {
+        _inventory.OnInventoryUpdated += UpdateCounter;
+    }
     void Start()
     {
         coinText.text = _inventory.GetCoins().ToString();
         _coinAnimator = GetComponent<Animator>();
     }
-    void Awake()
-    {
-        _inventory.OnInventoryUpdated += UpdateCounter;
-    }
+
 
     void UpdateCounter()
     {

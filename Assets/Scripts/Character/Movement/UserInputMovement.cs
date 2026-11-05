@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Gameplay.Interactions;
 
 namespace Gameplay.Character
 {
@@ -8,10 +9,14 @@ namespace Gameplay.Character
         private CharacterMovement _characterMovement;
 
         private CharacterAbilities _characterAbilities;
+
+        private CharacterInteractor _characterInteractor;
         void Awake()
         {
             _characterMovement = GetComponent<CharacterMovement>();
             _characterAbilities = GetComponent<CharacterAbilities>();
+            _characterInteractor = GetComponent<CharacterInteractor>();
+            
             if (_characterMovement == null)
             {
                 Debug.LogError("[UserInputMovement] CharacterMovement is null! Add a CharacterMovement component to the GameObject.");
@@ -43,6 +48,9 @@ namespace Gameplay.Character
             if (InputSystem.actions["Attack"].WasReleasedThisFrame())
             {
                 _characterAbilities.Attack();
+            }
+            if (InputSystem.actions["Interact"].WasPressedThisFrame()) {
+                _characterInteractor.TriggerInteraction();
             }
         }
     }
