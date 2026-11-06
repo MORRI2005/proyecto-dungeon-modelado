@@ -8,15 +8,25 @@ using UnityEngine.Events;
 public class CharacterAbilities : MonoBehaviour
 {
 
-    public UnityAction OnAtackStageChanged;
+    public UnityAction OnAttackTriggered;
+    private Damageable _damageable;
 
     public float swordDamage = 1f;
 
     [SerializeField] private Collider _basicAttackCollider;
-    public void Attack()
+
+    public void Awake()
     {
-        OnAtackStageChanged?.Invoke();
-        Debug.Log("Attack");
+        _damageable = GetComponent<Damageable>();
+    }
+    public void TriggerAttack()
+    {
+        Debug.Log("Character is attacking. dead?" + _damageable.IsDead);
+        if (_damageable.IsDead)
+            return;
+
+        OnAttackTriggered?.Invoke();
+        Debug.Log("Attack triggered");
     }
 
 

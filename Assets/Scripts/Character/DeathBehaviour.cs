@@ -20,6 +20,7 @@ public class DeathBehaviour : MonoBehaviour
 
     private void Die()
     {
+        Debug.Log("Incapacitado");
         // Disable the character's movement and interaction components
         CharacterMovement movement = GetComponent<CharacterMovement>();
         if (movement != null)

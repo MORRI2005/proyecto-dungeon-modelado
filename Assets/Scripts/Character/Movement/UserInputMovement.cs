@@ -16,7 +16,7 @@ namespace Gameplay.Character
             _characterMovement = GetComponent<CharacterMovement>();
             _characterAbilities = GetComponent<CharacterAbilities>();
             _characterInteractor = GetComponent<CharacterInteractor>();
-            
+
             if (_characterMovement == null)
             {
                 Debug.LogError("[UserInputMovement] CharacterMovement is null! Add a CharacterMovement component to the GameObject.");
@@ -47,9 +47,10 @@ namespace Gameplay.Character
             }
             if (InputSystem.actions["Attack"].WasReleasedThisFrame())
             {
-                _characterAbilities.Attack();
+                _characterAbilities.TriggerAttack();
             }
-            if (InputSystem.actions["Interact"].WasPressedThisFrame()) {
+            if (InputSystem.actions["Interact"].WasPressedThisFrame())
+            {
                 _characterInteractor.TriggerInteraction();
             }
         }

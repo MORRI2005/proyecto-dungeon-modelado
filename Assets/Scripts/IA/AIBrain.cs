@@ -1,4 +1,5 @@
 using Gameplay.Character;
+using Gameplay.Systems;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,8 @@ public class AIBrain : MonoBehaviour
     //Idle, Wonder y Attack, son los estados que tiene el enemigo, y se van a ir cambiando dependiendo de la distancia del player y de si el player esta dentro del rango de ataque o no.
     private CharacterMovement _characterMovement;
     private CharacterAbilities _characterAbilities;
+
+    private Damageable _damageable;
 
     private float timeInState = 0f;
 
@@ -34,7 +37,8 @@ public class AIBrain : MonoBehaviour
     {
         Idle,
         Patrol,
-        Chase
+        Chase,
+        ReturnHome
     }
 
     private AIState _currentState = AIState.Idle;
@@ -44,15 +48,20 @@ public class AIBrain : MonoBehaviour
     void Update()
     {
         timeInState += Time.deltaTime;
+        float distanceToTarget = Vector3.Distance(target.position, transform.position);
 
-        float distanceToTarget = Vector3.Distance(target.position, initialPosition);
-        Debug.Log($"Distance to target: {distanceToTarget}");
+        float distanceTargetToInitial = Vector3.Distance(target.position, initialPosition);
+
+        float distanceAiToInitial = Vector3.Distance(transform.position, initialPosition);
+
+        // Debug.Log($"Distance to target: {distanceToTarget}");
+        // Debug.Log($"Distance to initial position: {distanceTargetToInitial}");
+        // Debug.Log($"Distance AI to initial position: {distanceAiToInitial}");
 
         switch (_currentState)
         {
             case AIState.Idle:
-                _characterMovement.Move(initialPosition);
-                if (distanceToTarget < 2f)
+                if (distanceTargetToInitial < 2f)
                 {
                     ChangeState(AIState.Chase);
                 }
@@ -62,7 +71,18 @@ public class AIBrain : MonoBehaviour
                 break;
             case AIState.Chase:
                 MoveTo(target.position);
-                if (distanceToTarget > 2f)
+                if (distanceToTarget < 0.5f)
+                {
+                    _characterAbilities.TriggerAttack();
+                }
+                if (distanceTargetToInitial > 2f)
+                {
+                    ChangeState(AIState.ReturnHome);
+                }
+                break;
+            case AIState.ReturnHome:
+                MoveTo(initialPosition);
+                if (distanceAiToInitial < 0.1f)
                 {
                     ChangeState(AIState.Idle);
                 }
@@ -72,6 +92,7 @@ public class AIBrain : MonoBehaviour
 
     private void ChangeState(AIState newState)
     {
+        Debug.Log($"Changing state from {_currentState} to {newState}");
         switch (_currentState)
         {
             case AIState.Idle:
@@ -82,6 +103,9 @@ public class AIBrain : MonoBehaviour
                 break;
             case AIState.Chase:
                 // Lógica para entrar en el estado Chase
+                break;
+            case AIState.ReturnHome:
+                // Lógica para entrar en el estado ReturnHome
                 break;
         }
         _currentState = newState;
@@ -99,10 +123,13 @@ public class AIBrain : MonoBehaviour
             case AIState.Chase:
                 // Lógica para salir del estado Chase
                 break;
+            case AIState.ReturnHome:
+                // Lógica para salir del estado ReturnHome
+                break;
         }
     }
 
-    private void MoveTo(Vector3 targetPosition)
+    private void MoveTo(Vector3 targetPosition, float stoppingDistance = 0.1f)
     {
         CalculatePath(targetPosition);
 
@@ -117,7 +144,7 @@ public class AIBrain : MonoBehaviour
 
         Vector3 lookVector = new Vector3(simulatedInput.x, 0, simulatedInput.y);
 
-        if (directiontoNextCorner.magnitude > 1f)
+        if (directiontoNextCorner.magnitude > stoppingDistance)
         {
             _characterMovement.Move(simulatedInput);
             _characterMovement.LookAt(lookVector + transform.position);

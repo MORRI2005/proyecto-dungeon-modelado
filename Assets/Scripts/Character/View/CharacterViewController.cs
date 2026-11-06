@@ -49,21 +49,25 @@ public class CharacterViewController : MonoBehaviour
         {
             Debug.LogError("[CharacterViewController] Damageable is null! Add a Damageable component to the GameObject.");
         }
-        _characterAbilities.OnAtackStageChanged += Attack;
+        _characterAbilities.OnAttackTriggered += DoAttackAnimation;
     }
 
     private void OnDeath()
     {
+        Debug.Log("Character has died. Triggering death animation.");
         _animator.SetTrigger("die");
+        _animator.ResetTrigger("attack_sword");
     }
 
     private void TakeDamage(float damage)
     {
+        Debug.Log("Character TakeDamage");
         _animator.SetTrigger("damaged");
     }
 
-    private void Attack()
+    private void DoAttackAnimation()
     {
+        Debug.Log("Character is attacking. Triggering attack animation.");
         _animator.SetTrigger("attack_sword");
     }
 

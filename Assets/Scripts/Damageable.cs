@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace  Gameplay.Systems
+namespace Gameplay.Systems
 {
     public class Damageable : MonoBehaviour
     {
@@ -11,7 +11,7 @@ namespace  Gameplay.Systems
         public float MaxHitpoints => _maxHitpoints;
         [SerializeField] float _maxHitpoints = 100f;
 
-        bool IsDead => _isDead;
+        public bool IsDead => _isDead;
         bool _isDead = false;
 
         public bool canTakeDamage = true;
@@ -28,7 +28,7 @@ namespace  Gameplay.Systems
 
         public void TakeDamage(float damage)
         {
-            if(_isDead || !canTakeDamage) return;
+            if (_isDead || !canTakeDamage) return;
 
             _currentHitpoints -= damage;
             if (_currentHitpoints <= 0 && !inmortal)
