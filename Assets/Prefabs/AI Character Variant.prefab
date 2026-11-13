@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI Character Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5952397226309433072, guid: 56f574ebc09ceae4ab4d889cee497fd8, type: 3}
+      propertyPath: _maxHitpoints
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6768918198552782986, guid: 56f574ebc09ceae4ab4d889cee497fd8, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -62,11 +66,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2806883838532431584, guid: 56f574ebc09ceae4ab4d889cee497fd8, type: 3}
+    - {fileID: 5052216139663031456, guid: 56f574ebc09ceae4ab4d889cee497fd8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1898377477949474490, guid: 56f574ebc09ceae4ab4d889cee497fd8, type: 3}
-      insertIndex: 13
+      insertIndex: 12
       addedObject: {fileID: 4827370416374700981}
   m_SourcePrefab: {fileID: 100100000, guid: 56f574ebc09ceae4ab4d889cee497fd8, type: 3}
 --- !u!1 &8692440183236493777 stripped
@@ -86,3 +91,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12bdb9453e27cb4496faa88e44b108e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIBrain
+  target: {fileID: 0}

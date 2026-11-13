@@ -22,6 +22,8 @@ namespace Gameplay.Character
         public Vector3 LookDirection => _lookDirection;
         private Vector3 _lookDirection = Vector3.forward;
 
+        // private Vector 3 knockbackDirection;
+
         //true -> Jump started. | false -> Jump ended.
         // Es un listener
         public UnityAction<bool> OnJumpStateChanged;
@@ -54,6 +56,7 @@ namespace Gameplay.Character
 
             //Set the Rigidbody's velocity to the desired move velocity while preserving the current y-axis velocity (for gravity and jumping)
             _myRigidBody.linearVelocity = new Vector3(desiredMoveVelocity.x, _myRigidBody.linearVelocity.y, desiredMoveVelocity.y);
+            // +knockback
         }
 
         public void LookAt(Vector3 targetLookPosition)
@@ -114,6 +117,7 @@ namespace Gameplay.Character
                     OnJumpStateChanged?.Invoke(false);
                 }
             }
+            //knockback--;
         }
 
         public bool IsGrounded()
